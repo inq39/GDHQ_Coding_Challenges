@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     private float _jumpHeight;
     private CharacterController _cc;
     private float _yVelocity;
+    private int _pressedR;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,17 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CalculateMovement();
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            _pressedR++;
+            UIManager.Instance.UpdateText(_pressedR);
+        }
+    }
+
+    private void CalculateMovement()
+    {
         float hInput = Input.GetAxis("Horizontal");
         Vector3 direction = new Vector3(hInput, 0, 0);
         Vector3 velocity = direction * _playerSpeed;
@@ -41,9 +53,9 @@ public class Player : MonoBehaviour
         }
         else
         {
-            _yVelocity -= _gravity;
+            _yVelocity -= _gravity * Time.deltaTime;
         }
-        
+
         velocity.y = _yVelocity;
         _cc.Move(velocity * Time.deltaTime);
     }

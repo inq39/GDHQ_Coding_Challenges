@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class Event01 : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public delegate void ChangeCubePosition(Vector3 pos);
+    public static event ChangeCubePosition onSpace;
+    
 
-    // Update is called once per frame
-    void Update()
+    public void Update()
     {
-        
+        if (onSpace != null)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Vector3 newPosition = new Vector3(5, 2, 0);
+                onSpace(newPosition);
+            }
+        }
     }
 }
